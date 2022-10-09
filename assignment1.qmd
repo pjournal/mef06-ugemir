@@ -4,6 +4,7 @@ date: "2022-10-01"
 ---
 
 This is a template example qmd output page. You may see an example R code below.
+RStudio.
 
 ```{r}
 set.seed(1)
