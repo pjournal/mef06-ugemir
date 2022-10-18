@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "[STUDENT/GROUP NAME] Progress Journal"
+  title: "Ugur Ozata's Progress Journal"
   repo-url: https://github.com/pjournal/gh-pages-quarto-template
   chapters:
     - index.qmd
@@ -14,7 +14,7 @@ book:
 
 format:
   html:
-    theme: cosmo
+    theme: sandstone
   pdf:
     documentclass: scrreprt
 

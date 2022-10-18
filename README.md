@@ -1,5 +1,3 @@
-# gh-pages-quarto-template
+Hi, this is my master class project repo based on Quarto. 
 
-A template for Github Pages Quarto Websites for Progress Journals. 
-
-Note to students: You might want to change this README file to reflect your work on Github repository.
+You can find rendered web site [here](https://pjournal.github.io/mef06-ugemir/) .

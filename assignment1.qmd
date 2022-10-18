@@ -1,13 +1,135 @@
 ---
 title: "Assignment 1"
-date: "2022-10-01"
+date: "2022-10-18"
 ---
 
-This is a template example qmd output page. You may see an example R code below.
-RStudio.
+## **About me**
+
+![](images/paste-2B02A4B0.png)
+
+Hi, I'm Ugur Ozata. I've been working as Senior Data Analyst at Peak Games for 3,5 years. I'm in the data field since my third year in the university. Finding insights for real problems from the data encourages me to work in this field. Until now I showed what happended in the data, my future plan is to show what is going to happen from the data.
+
+<a href="https://tr.linkedin.com/in/ugurozata" target="_blank">
+<img src="https://marka-logo.com/wp-content/uploads/2020/04/Linkedin-Logo.png" style="width:50px;">
+</a>
+
+
+
+## **Wonderful Speech from RStudio Conf. 2022**
+
+Hi I chose [*"Websites & Books & Blogs, oh my! Creating Rich Content with Quarto"*](https://www.rstudio.com/conference/2022/talks/sessions/quarto-deep-dive/websites-books-blogs-quarto/) from Devin Pastoor. We'll be using Quarto throughout the course 503 that is why i chose this to see real life example.
+
+He tried bunch of things to create documentation or website such as hugodown, bookdown, blogdown and faces many troubles. In quarto, it is possible to both do documentation and create a website, beside initialize the project with one command line and support almost everything.
+
+While quarto supports markdown, it can also work without markdown. We are all used to writing with Markdown. What about when we want to add a picture? We all google. In quarto, when we drag and drop the picture, it both uploads the picture and creates a folder directory for the picture. It is just that easy to do this.
+
+In addition, it is very easy to reach the main config of the project and add something new in quarto. The whole config is in \_quarto.yml. When we want to add an external framework, we first need to install it into our project and import it in a way that quarto can understand.
+
+He wanted to create a blog tab first. He wrote the things below into .qmd file.
+
+```
+--- 
+title: "myblog"
+listing:
+contents: posts
+sort: "date desc"
+type: default
+categories: true
+---
+```
+
+  One of the blog posts, there was a pictures which was not clickable. He thought this is not professional way then he installed lightbox library then did the same thing as he did for blog, wrote the things below then all pictures in the page was clickable! It was that easy.
+
+```
+---
+filters:
+    - lightbox
+lightbox: auto
+---
+```
+
+He mentioned there are pretty much different templates to inspire. It can be reached from quarto.org/docs/gallery.
+
+
+## Couple of interesting R Posts
+
+### How to read&write CSV
+
+Data seperator define the file type such as csv(comma),tsv(tab) etc... Most of time it will be csv or tsv, so example will be around them.
+
+While the seperator changes in the file, function is same but parameter (sep) changes.
+
+Let's import dataset for both.
+
+```
+csv_data <- read.csv(file='mydata.csv',sep=',')
+tsv_data <- read.csv(file='mydata.csv',sep='\t')
+```
+
+Let's use **header** parameters.
+
+All columns have its own name but only when it's indicated in the dataset. If our dataset have column name, we set header parameters True, it means first row of file will be column names. Otherwise, set false.
+
+```
+csv_data <- read.csv(file='mydata.csv',sep=',',header=TRUE)
+tsv_data <- read.csv(file='mydata.csv',sep='\t',header=TRUE)
+```
+
+Let's write our data into csv or tsv.
+We have row.names parameters this time. DataFrame in R have its row number, if we dont want to keep this in our file, we should set row.names=FALSE
+
+```
+read.csv(file='mydata.csv',sep=',',row.names=FALSE)
+read.csv(file='mydata.csv',sep='\t',row.names=FALSE)
+```
+
+[For more details.](https://swcarpentry.github.io/r-novice-inflammation/11-supp-read-write-csv/)
+
+### With and Within function
+#### With Function
+The with function makes the calculation from DataFrame.
 
 ```{r}
-set.seed(1)
-vec1 <- sample(LETTERS,5)
-paste0(vec1,collapse="")
+Num <- c(100,100,100,100,100)
+Cost <- c(1200,1300,1400,1500,1600)
+data_A <- data.frame(Num,Cost,stringsAsFactors = FALSE)
+print(with(data_A, Num*Cost))
+print(with(data_A, Num/Cost))
 ```
+
+#### Within Function
+The within function makes the calculation and write it into DataFrame.
+
+```{r}
+Num <- c(100,100,100,100,100)
+Cost <- c(1200,1300,1400,1500,1600)
+data_A <- data.frame(Num,Cost,stringsAsFactors = FALSE)
+within(data_A, product <- Num*Cost)
+within(data_A, devide <- Num/Cost)
+```
+[For more details.](https://www.digitalocean.com/community/tutorials/with-and-within-function-in-r)
+
+
+### Summaris(z)e function from dplyr library
+We find the calculation row by row above, what about making calcalation by groups? It's the summarize and group_by function. NOTE: We'll need dplyr library.
+
+Let's find average cost for Brands.
+
+```
+
+Brand <- c('Brand1','Brand1','Brand2','Brand2','Brand2')
+Cost <- c(10,20,100,150,200)
+data_A <- data.frame(Brand,Cost,stringsAsFactors = FALSE)
+data_A %>%
+  group_by(Brand) %>%
+    summarize(mean = mean(Cost))
+
+Result will be: 
+
+Brand   mean
+Brand1	15			
+Brand2	150	
+
+```
+
+[For more details.](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise)
