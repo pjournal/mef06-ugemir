@@ -1,0 +1,82 @@
+---
+title: "inclass1"
+format: html
+editor: visual
+---
+
+
+```{r}
+#| echo: false
+#| warning: false
+library(dplyr)
+library(nycflights13)
+  
+```
+
+### Let's look at the description of the dataset.
+
+This package contains information about all flights that departed from NYC (e.g. EWR, JFK and LGA) to destinations in the United States, Puerto Rico,and the American Virgin Islands) in 2013: 336,776 flights in total.
+
+### AIRBUS and AIRBUS INDUSTRIE
+
+There are AIRBUS and AIRBUS INDUSTRIE in the data, with quick google search there is no difference between them. it was AIRBUS INDUSTRIE until 2001, since then it's just AIRBUS. That's why let's make them same.
+
+```{r}
+planes %>%
+  group_by(manufacturer) %>%
+  summarise(plane_count=n()) %>%
+  arrange(desc(plane_count)) %>%
+  print(n = Inf)
+
+planes_new <- planes %>% mutate(manufacturer = replace(manufacturer, manufacturer == "AIRBUS INDUSTRIE", "AIRBUS"))
+  
+```
+
+### 80/20 Rules
+
+There are 34 different manufacturers, first 4 manufacturer dominated the market and 91.4% of planes belongs to them. Not exactly but 80/20 rules somehow works here 11% of the manufacturer dominates the 91.4% of the market.
+
+```{r}
+planes_new %>%
+  group_by(manufacturer) %>%
+  summarise(avg_engine=mean(engines),median_engine=median(engines),plane_count=n()) %>%
+  arrange(desc(plane_count)) %>%
+  mutate(frequency = round(plane_count/sum(plane_count),3), cumsum = cumsum(frequency)) %>%
+  print(n = Inf)
+```
+
+### Manufacturer by engine counts
+
+Most of planes have 2 engines and rest of them have 1,3,4 engines. 2 engines have different avg seat, for example BOEING has 187 seat, BOMBARDIER INC has 74 in average. The reason could be pricing and luxury. While BOMBARDIER offering more private experience, BOEIGN offering more seats. 3 and 4 engines might be for long flight. They also differs in terms of available seats. 4 engines CANADAIR LTD has only 2 seats, but BOEING have 450 seats.
+
+```{r}
+planes_new %>%
+  group_by(engines,manufacturer) %>%
+  summarise(plane_count=n(),avg_seats=mean(seats),,median_seats=median(seats)) %>%
+  arrange(engines,desc(plane_count)) %>%
+  print(n = Inf)
+```
+
+### Leaders of Market
+
+We know that most of plane have 2 engines and they are belongs to 4 manufacturer. Let's investigate metrics. of only 2 engines comes from 4 manufacturer.
+
+```{r}
+manufacturers_names <- planes_new %>%
+  group_by(manufacturer) %>%
+  summarise(avg_engine=mean(engines),median_engine=median(engines),plane_count=n()) %>%
+  arrange(desc(plane_count)) %>%
+  mutate(frequency = round(plane_count/sum(plane_count),3), cumsum = cumsum(frequency)) %>%
+  select(manufacturer) %>%
+  slice_head(n = 4)
+```
+
+AIRBUS and BOEING look like two compaines have same strategy which is more seats. BOEING have more different planes than AIRBUS. BOMBARDIER and EMBRAER also have same strategy which is less seats.
+
+```{r}
+planes_new %>%
+  filter(manufacturer %in% manufacturers_names$manufacturer,engines == 2) %>%
+  group_by(manufacturer) %>%
+  summarise(mean=mean(seats),std_dev=sd(seats),count=n()) %>%
+  print(n = Inf)
+```
