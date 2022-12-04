@@ -1,0 +1,13 @@
+name: foreign_student
+title: foreign_student
+username:
+account: uguremirozata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7808127
+bundleId: 6589303
+url: https://uguremirozata.shinyapps.io/foreign_student/
+when: 1670165305.79468
+lastSyncTime: 1670165305.79469
+asMultiple: FALSE
+asStatic: FALSE

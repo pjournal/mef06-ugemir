@@ -1,0 +1,9 @@
+---
+title: "shiny app"
+date: "2022-10-19"
+---
+
+Hi, this shiny app is made to investigate foreign student in Turkey. It gives
+province, university type (private, state), university name for given nationalities.
+
+Shiny App can be reached from this [link](https://uguremirozata.shinyapps.io/foreign_student/).
